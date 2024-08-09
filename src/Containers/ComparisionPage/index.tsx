@@ -7,6 +7,7 @@ import CarListing from "../CarListing";
 import { DELETE_CAR, useCompareList, useSearchHistory } from "../../Slices";
 import { useDispatch } from "react-redux";
 import { ALL_CARS } from "../../Constants/constants";
+import { useNavigate } from "react-router-dom";
 
 export interface Car {
   id: number | string;
@@ -30,6 +31,7 @@ export type CarKey = keyof Omit<Car, "id">;
 const ComparisonTable: React.FC = () => {
   const compareList = useCompareList();
   const searchHistory = useSearchHistory();
+  const navigate = useNavigate();
   const dispatch = useDispatch();
   const [firstCar, setFirstCar] = useState<any>({});
   const [secondCar, setSecondCar] = useState<any>({});
@@ -57,34 +59,41 @@ const ComparisonTable: React.FC = () => {
     }
   }, [searchHistory]);
 
-
   useEffect(() => {
-    if (compareList.length == 1) {
-      setFirstCar(compareList[0]);
-      setFirstEmpty(false);
-      setSecondCar({});
-      setSecondEmpty(true);
-    } else if (compareList.length == 2) {
-      setFirstCar(compareList[0]);
-      setFirstEmpty(false);
-      setSecondCar(compareList[1]);
-      setSecondEmpty(false);
-    } else {
-      setFirstEmpty(true);
-      setSecondEmpty(true);
-    }
-    console.log(firstCar, "fitst")
-    console.log(secondCar, "secnd")
-  }, []);
+    if (compareList)
+      if (compareList.length == 1) {
+        setFirstCar(compareList[0]);
+        setFirstEmpty(false);
+        setSecondCar({});
+        setSecondEmpty(true);
+      } else if (compareList.length == 2) {
+        setFirstCar(compareList[0]);
+        setFirstEmpty(false);
+        setSecondCar(compareList[1]);
+        setSecondEmpty(false);
+      } else {
+        setFirstEmpty(true);
+        setSecondEmpty(true);
+      }
+    console.log(firstCar, "fitst car");
+    console.log(secondCar, "second car");
+  }, [compareList]);
 
   const onFirstClose = () => {
     dispatch(DELETE_CAR(firstCar.id));
+    setFirstCar({});
+    setFirstEmpty(true);
   };
 
   const onSecondClose = () => {
     dispatch(DELETE_CAR(secondCar.id));
+    setSecondCar({});
+    setSecondEmpty(true);
   };
-
+  
+  const viewAll = () => {
+    navigate("/view-all-cars");
+  };
   return (
     <>
       <Header />
@@ -92,10 +101,11 @@ const ComparisonTable: React.FC = () => {
         <Grid container justifyContent="center" sx={{ width: "100%", paddingTop: "20px" }}>
           <Grid item container spacing={2} sx={{ width: "60%", padding: "10px" }}>
             <Grid item xs={12} md={5}>
-              {firstEmpty ? (
+              {!firstEmpty ? (
                 <CarDetailsCard car={firstCar} onClose={onFirstClose} />
               ) : (
                 <Card
+                  onClick={viewAll}
                   sx={{
                     display: "flex",
                     justifyContent: "center",
@@ -119,6 +129,7 @@ const ComparisonTable: React.FC = () => {
                 <CarDetailsCard car={secondCar} onClose={onSecondClose} />
               ) : (
                 <Card
+                  onClick={viewAll}
                   sx={{
                     display: "flex",
                     justifyContent: "center",
@@ -139,15 +150,24 @@ const ComparisonTable: React.FC = () => {
             </Grid>
           </Grid>
         </Grid>
-        {compareList.length == 2 && <Grid container justifyContent="center" sx={{ width: "60%", margin: "40px 0px" }}>
-          <Grid item sx={{ width: "60%", marginTop: "10px" }}>
-            <ComparisionTable cars={compareList} />
+        {compareList.length == 2 && (
+          <Grid container justifyContent="center" sx={{ width: "60%", margin: "40px 0px" }}>
+            <Grid item sx={{ width: "100%", marginTop: "10px" }}>
+              <ComparisionTable cars={compareList} />
+            </Grid>
           </Grid>
-        </Grid>}
+        )}
       </Box>
-     {showSuggestion ?
-      <CarListing title={"Recommended Cars For You"} secondary={"view all"} compareOption={false} carList={filteredCars} />:
-      <CarListing title={"Latest Cars"} secondary={"view all"} compareOption={false} carList={ALL_CARS} />}
+      {showSuggestion ? (
+        <CarListing
+          title={"Recommended Cars For You"}
+          secondary={"view all"}
+          compareOption={false}
+          carList={filteredCars}
+        />
+      ) : (
+        <CarListing title={"Latest Cars"} secondary={"view all"} compareOption={false} carList={ALL_CARS} />
+      )}
     </>
   );
 };

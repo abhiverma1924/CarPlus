@@ -19,6 +19,7 @@ const Layout = () => {
   const [loading, setLoading] = useState<boolean>(false);
 
   useEffect(() => {
+    console.log(compareList);
     if (compareList.length > 0) {
       setCompareTab(true);
     }
@@ -28,9 +29,9 @@ const Layout = () => {
     const fetchCars = async () => {
       setLoading(true);
       try {
-        const carsList = await GetAllCars();
-        setCars(carsList.data);
-        setLoading(false);
+        // const carsList = await GetAllCars();
+        const carsList = ALL_CARS;
+        setCars(carsList);
       } catch (error: any) {
         console.log("error", error);
         Toasty.error(error);
@@ -68,19 +69,7 @@ const Layout = () => {
           alignItems: "center",
         }}
       >
-        {loading ? (
-          <Card>
-            {/* <Header/> */}
-            <Skeleton
-              variant="rectangular"
-              width="100%"
-              height={100} // Adjust height according to your content
-              sx={{ margin: "20px 0" }}
-            />
-          </Card>
-        ) : (
-          <CarListing title={"Latest"} secondary={"View All Latest Cars"} compareOption={false} carList={cars} />
-        )}
+        <CarListing title={"Latest"} secondary={"View All Latest Cars"} compareOption={false} carList={cars} />
       </Box>
       <Box
         sx={{

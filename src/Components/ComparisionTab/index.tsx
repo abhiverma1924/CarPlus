@@ -17,17 +17,28 @@ const ComparisionTab = () => {
     navigate('/car-compare')
   };
 
+  const viewAll = () =>{
+    navigate('/view-all-cars');
+  }
+
   useEffect(() => {
-    if (compareList.length == 1) {
-      setFirstCar(compareList[0]);
-      setFirstEmpty(false);
-    } else if (compareList.length == 2) {
-      setSecondCar(compareList[1]);
-      setSecondEmpty(false);
-    } else {
-      setFirstEmpty(true);
-      setSecondEmpty(true);
-    }
+    if (compareList)
+      if (compareList.length == 1) {
+        setFirstCar(compareList[0]);
+        setFirstEmpty(false);
+        setSecondCar({});
+        setSecondEmpty(true);
+      } else if (compareList.length == 2) {
+        setFirstCar(compareList[0]);
+        setFirstEmpty(false);
+        setSecondCar(compareList[1]);
+        setSecondEmpty(false);
+      } else {
+        setFirstEmpty(true);
+        setSecondEmpty(true);
+      }
+    console.log(firstCar, "fitst car");
+    console.log(secondCar, "second car");
   }, [compareList]);
 
   return (
@@ -43,7 +54,7 @@ const ComparisionTab = () => {
         {!firstEmpty ? (
           <SingleTab car={firstCar} />
         ) : (
-          <Box sx={{ display: "flex", justifyContent: "center", alignItems: "center", margin: "15px" }}>
+          <Box sx={{ display: "flex", justifyContent: "center", alignItems: "center", margin: "15px" }} onClick={viewAll}>
             <Typography sx={{ fontSize: "16px", color: "grey", fontWeight: 400 }}>
               Add another car to start comparison
             </Typography>
@@ -55,7 +66,7 @@ const ComparisionTab = () => {
         {!secondEmpty ? (
           <SingleTab car={secondCar} />
         ) : (
-          <Box sx={{ display: "flex", justifyContent: "center", alignItems: "center", margin: "15px" }}>
+          <Box sx={{ display: "flex", justifyContent: "center", alignItems: "center", margin: "15px" }} onClick={viewAll}>
             <Typography sx={{ fontSize: "16px", color: "grey", fontWeight: 400 }}>
               Add another car to start comparison
             </Typography>

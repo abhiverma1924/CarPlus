@@ -25,7 +25,7 @@ const SingleTab: React.FC<Props> = ({ car }) => {
           </IconButton>
         </Grid>
         <Grid item xs={12} md={5}>
-          <img src="https://shorturl.at/rNL2Q" width={"120px"} height={"70px"} style={{ borderRadius: "10px" }} loading="lazy"/>
+          <img src={car.image} width={"120px"} height={"70px"} style={{ borderRadius: "10px" }} loading="lazy"/>
         </Grid>
         <Grid item xs={12} md={5}>
           <Typography sx={{ fontSize: "18px", fontWeight: 800 }} component="div">

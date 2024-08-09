@@ -8,7 +8,7 @@ import { Button, Checkbox, FormControlLabel, FormGroup, Grid, IconButton } from 
 import CloseIcon from "@mui/icons-material/Close";
 import { useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
-import { ADD_CAR, useCompareList } from "../../Slices";
+import { ADD_CAR, SEARCH_HISTORY, useCompareList } from "../../Slices";
 import Toasty from "../Toasty";
 import { Car } from "../../Containers/ComparisionPage";
 
@@ -39,6 +39,7 @@ const CarDetailsCard: React.FC<Props> = ({ car, noImage = true, noButton = true,
 
   const onViewDetails = () => {
     navigate("/car-details", { state: { car: car } });
+    dispatch(SEARCH_HISTORY(car));
   };
 
   return (
@@ -60,7 +61,7 @@ const CarDetailsCard: React.FC<Props> = ({ car, noImage = true, noButton = true,
           <CloseIcon />
         </IconButton>
       )}
-      {noImage && <CardMedia sx={{ height: 160 }} image={"https://shorturl.at/rNL2Q"} title="car image" />}
+      {noImage && <CardMedia sx={{ height: 160 }} image={car.image} title="car image" />}
       <CardContent sx={{ height: 100 }}>
         <Typography sx={{ fontSize: "18px", fontWeight: 800 }} component="div">
           {car?.make} {car?.model}

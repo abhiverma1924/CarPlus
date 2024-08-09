@@ -74,7 +74,7 @@ const FeatureCard: React.FC<Props> = ({ car, compare, setCompare }) => {
       <Grid container rowSpacing={1} columnSpacing={{ xs: 1, sm: 2, md: 3 }} margin={"20px"} padding={"20px"}>
         {carDetails &&
           Object.entries(carDetails).map(([key, value]) => (
-            <Grid xs={12} md={6} container marginTop={"5px"} key={key}>
+            <Grid xs={12} md={6} container marginTop={"5px"} >
               <Grid item xs={4} md={4}>
                 <Typography color={"#6E6F73"} textTransform={"capitalize"}>
                   {key}:

@@ -11,7 +11,7 @@ const ViewAllCars = lazy(() => import("../Containers/ViewAllCars"));
 const Loading = () => (
   <>
     <Header />
-    <Card sx={{ margin: "40px", padding:'40px' }}>
+    <Card sx={{ margin: "40px", padding:'20px' }}>
       <Skeleton variant="rectangular" width="100%" height={350} sx={{ margin: "40px" }} />
     </Card>
   </>
@@ -24,7 +24,7 @@ const AppRoute: React.FC = () => {
         <Routes>
           <Route path="/home" element={<Layout />} />
           <Route path="/car-details" element={<CarDetails />} />
-          <Route path="/comparison-table" element={<ComparisonTable />} />
+          <Route path="/car-compare" element={<ComparisonTable />} />
           <Route path="/view-all-cars" element={<ViewAllCars />} />
         </Routes>
       </Suspense>

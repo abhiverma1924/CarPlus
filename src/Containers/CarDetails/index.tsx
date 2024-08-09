@@ -42,7 +42,7 @@ const CarDetails: React.FC = () => {
   }, [compareList]);
 
   useEffect(() => {
-    if (state) setCar(state?.car);
+    if (state) setCar(state.car);
   }, [state]);
 
   useEffect(() => {
@@ -57,7 +57,7 @@ const CarDetails: React.FC = () => {
       <Header />
       <Grid container margin={"50px"} width={"50%"}>
         <Grid item xs={12} sm={12} md={12} marginLeft={"30px"}>
-          <img src={"https://shorturl.at/rNL2Q"} width={"100%"} loading="lazy"/>
+          {car && <img src={car.image} width={"100%"} loading="lazy"/>}
           <FeatureCard car={car} compare={compare} setCompare={setCompare} />
         </Grid>
       </Grid>
